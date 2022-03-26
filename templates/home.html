@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Allerapp{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+    <script src="static/homejs.js"></script>
+<p>
+</p>
+
+  <h1>Welcome!</h1>
+
+
+  <form id = "Check" method="POST" action = "/submitirritants">
+    Which irritants would you like to avoid? <p>
+  
+    {% for irritant in irritants %}
+
+    <input type="checkbox" name="irritants" value="{{ irritant.irritantgroup_name }}" id="{{ irritant.irritantgroup_name }}-irritant">
+    <label for="{{ irritant.irritantgroup_name }}-irritant">{{ irritant.irritantgroup_name }}</label>
+
+    {% endfor %}
+
+<p>
+<label>Search Here</label>&nbsp;&nbsp;<input type="text" name="search" id="searchBox"/>
+
+    <button type="submit">Check!</button>
+</form>
+
+<div id="result-text"></div>
+
+
+  <h2>Create an Account</h2>
+  <form action="/register" method="POST">
+    <p>
+      Email <input type="text" name="email">
+    </p>
+
+    <p>
+      Password <input type="password" name="password">
+    </p>
+
+    <p>
+      <input type="submit">
+    </p>
+  </form>
+
+  <h2>Log In</h2>
+  <form action="/login" method="POST">
+    <p>
+      Email <input type="text" name="email">
+    </p>
+
+    <p>
+      Password <input type="password" name="password">
+    </p>
+
+    <p>
+      <input type="submit">
+    </p>
+  </form>
+
+  <script src="static/prodresults.js"></script>
+
+{% endblock %}
