@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Allerapp{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
+    <script src="static/homejs.js"></script>
+<p>
+</p>
+
+  <h1>Welcome!</h1>
+
+  Section where we have checkboxes already checked of allergies that are listed, or we just list their allergies
+<form method="POST" action = "/submitingredients">
+    Which ingredients would you like to avoid? <p>
+  
+    {% for ingredient in ingredients %}
+
+    <input type="checkbox" name="ingredients" value="{{ ingredient.ingredient_name }}" id="{{ ingredient.ingredient_name }}-ingredient">
+    <label for="{{ ingredient.ingredient_name }}-ingredient">{{ ingredient.ingredient_name }}</label>
+
+    {% endfor %}
+  Area to search a product
+
+  <label>Search Here</label>&nbsp;&nbsp;<input type="text" name="search" id="searchBox"/>
+
+    <button id="Check" type="submit">Check!</button>
+</form>
+
+<p>
+  area with bookmarked products <p>
+
+  are with products they have looked up.
+
+
+
+<p>
+
+
+  
+
+
+{% endblock %}

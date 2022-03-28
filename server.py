@@ -22,40 +22,37 @@ def home():
 
     return render_template("home.html", irritants=irritants, products=products)
 
-@app.route("/submitirritants", methods=['GET', 'POST'])
-def submit_ingredients():
+@app.route("/submitirritants", methods=['GET'])
+def submit_irritants():
     """Add chosen irritants to userirritants table.
     Compare to ingredients in chosen product """
 
 
-    if request.method =='POST':
-        allergylist = request.form.getlist('irritants')
-        print(allergylist)
-        # full_allergy_list = crud.make_full_allergy_list(allergylist)
-        # ### do this w/ sqlAlchemy queries like the productname list
+    
+    allergylist = request.args.get('irritants').split(",")
+    print(type(allergylist))
+    print("\n"*4)
+    print(allergylist)
+    # full_allergy_list = crud.make_full_allergy_list(allergylist)
+    # ### do this w/ sqlAlchemy queries like the productname list
 
-        chosen_product = request.form.get('search')
-        print(chosen_product)
-        ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
-        print("\n"*4)
-        print(ig_by_pr)
-        print("\n"*4)
-        # ing_list = crud.get_productingredients_by_product(chosen_product)
-        # ### this too
+    chosen_product = request.args.get('search')
+    print("\n"*4)
+    print(chosen_product)
+    print("\n"*4)
+    ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
+    print("\n"*4)
+    print("bob")
+    print(ig_by_pr)
+    print("bob")
+    print("\n"*4)
 
-        # # print(ing_list)
-        
-        # allergic = crud.compare_lists(full_allergy_list, ing_list)
-        # print(allergic)
-        # if not allergic:
-        #     flash(f'Yay! You are not allergic to {chosen_product}!')
-        # else:
-        #     flash(f'Boo, you are allergic to {chosen_product}')
 
-#Add javascript to prevent the default, and use javascript to put the results on the page
-    check_product_answer = "You can have it!"
-
-    return check_product_answer
+    if ig_by_pr:
+        return (f'Boo, you are allergic to {chosen_product}')
+    else:
+        return (f'Yay! You are not allergic to {chosen_product}!')
+    
 
 @app.route('/search', methods=['POST'])
 def search():

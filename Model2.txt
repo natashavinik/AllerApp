@@ -1,0 +1,512 @@
+
+    User
+        user-id, fname, lname, email, password sameeee
+        searchedproducts - sameeee
+        irritant groups (relationship), uses secondary UIG
+
+
+    UserIrritantGroup
+        useriritant group id (primary key)
+        user_id foreign key
+        irritant group id (foreign key)
+
+
+    IrritantGroup
+        irritant_id
+        irritant_name
+        ingredients (relationship)
+        users (relationship), uses secondary UIG
+
+
+    Ingredient
+        ingredient_id
+        name
+        irritant_id (foriegn key, nullable)
+        irritantgroup (relationship)
+        products (relationship) uses secondary PI
+
+    ProductIngredient
+        product_ingredient_id
+        ingredient_id (foreign key)
+        product_id (foreign key)
+        (no repr)
+
+    Product
+        product_id
+        product_name
+        product_type (later on maybe a categories/type table)
+        ingredients (relationship to ingredient) secondary PI
+
+create irritant groups and ingredients (which are at first just the irritants themselves)
+
+first go through product list of ingredients,
+check if ingredient is in the database, 
+if not create it,
+see if it belongs to an irritant group, if so, add irritant group to the ingredient
+either way add the ingredient instance to a list 
+when ingredients created, create product
+pass that list as the ingredients attribute
+
+
+SearchedProduct
+    sameeee
+
+------------------------------------------------------------
+
+
+OLD MODEL.PY:
+
+class User(db.Model):
+    """A user."""
+
+    __tablename__ = "users"
+
+    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    fname = db.Column(db.String)
+    lname = db.Column(db.String)
+    email = db.Column(db.String, unique=True)
+    password = db.Column(db.String)
+
+    useringredients = db.relationship('UserIngredient', back_populates="user") 
+
+    searchedproducts = db.relationship('SearchedProduct', back_populates="user") 
+
+    def __repr__(self):
+        return f"<User user_id={self.user_id} email={self.email}>"
+
+
+class Ingredient(db.Model):
+    """An ingredient."""
+
+    __tablename__ = "ingredients"
+
+    ingredient_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    ingredient_name = db.Column(db.String)
+
+    altingredients = db.relationship('AltIngredient', back_populates="ingredient") 
+    useringredients = db.relationship('UserIngredient', back_populates="ingredient") 
+
+
+    def __repr__(self):
+        return f"<Ingredient ingredient_id={self.ingredient_id} ingredient_name={self.ingredient_name}>"
+
+
+class AltIngredient(db.Model):
+    """Alternate name for ingredient"""
+
+    __tablename__ = "altingredients"
+
+    alt_ingredient_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.ingredient_id'))
+    alt_ingredient_name = db.Column(db.String)
+
+    ingredient = db.relationship('Ingredient', back_populates="altingredients")
+
+
+    def __repr__(self):
+        return f"<Alternate Ingredient alt_ingredient_id={self.alt_ingredient_id} alt_ingredient_name={self.alt_ingredient_name}>"
+
+
+class UserIngredient(db.Model):
+    """A user's ingredient to avoid."""
+
+    __tablename__ = "useringredients"
+
+    user_ingredient_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.ingredient_id'))
+
+    
+    user = db.relationship('User', back_populates="useringredients")
+    ingredient = db.relationship('Ingredient', back_populates="useringredients") 
+
+
+    def __repr__(self):
+        return f"<UserIngredientID user_ingredient_id={self.user_ingredient_id} ingredient_id={self.ingredient_id}>"
+
+
+class Product(db.Model):
+    """A product."""
+
+    __tablename__ = "products"
+
+    product_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    product_name = db.Column(db.String)
+    product_type = db.Column(db.String)
+
+    searchedproducts = db.relationship('SearchedProduct', back_populates="product") 
+    # productingredients = db.relationship('ProductIngredient', back_populates="product") 
+    alt_ingredient = db.relationship('AltIngredient', back_populates="products")
+
+
+    def __repr__(self):
+        return f"<Product product_id={self.product_id} product_name={self.product_name}>"
+
+class ProductIngredient(db.Model):
+    """A product's ingredient."""
+
+    __tablename__ = "productingredients"
+
+    product_ingredient_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey("products.product_id"))
+    alt_ingredient_id = db.Column(db.Integer, db.ForeignKey("altingredients.alt_ingredient_id"))
+
+
+
+    def __repr__(self):
+        return f"<ProductIngredient product_ingredient_id={self.product_ingredient_id} ingredient={self.ingredient}>"
+
+
+
+# class ProductIngredient(db.Model):
+#     """A product's ingredient."""
+
+#     __tablename__ = "productingredients"
+
+#     product_ingredient_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+#     product_id = db.Column(db.Integer, db.ForeignKey("products.product_id"))
+#     ingredient = db.Column(db.String)
+
+#     product = db.relationship('Product', back_populates="productingredients") 
+
+#     alt_ingredient_id = db.Column(db.Integer, db.ForeignKey("altingredients.alt_ingredient_id"))
+
+#     alt_ingredient = db.relationship('AltIngredient', back_populates="productingredients")
+
+
+#     def __repr__(self):
+#         return f"<ProductIngredient product_ingredient_id={self.product_ingredient_id} ingredient={self.ingredient}>"
+    
+
+class SearchedProduct(db.Model):
+    """A products that a user has searched."""
+
+    __tablename__ = "searchedproducts"
+
+    searched_product_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
+    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'))
+    favorited = db.Column(db.Boolean)
+    approved = db.Column(db.Boolean)
+
+    user = db.relationship('User', back_populates="searchedproducts") 
+    product = db.relationship('Product', back_populates="searchedproducts") 
+
+
+    def __repr__(self):
+        return f"<SearchedProduct Searched_product_id={self.searched_product_id} product_id={self.product_id}>"
+
+
+-----------------------------------------------------------------------
+OLD CRUD.PY
+
+def create_user(email, password):
+    """Create and return a new user."""
+
+    user = User(email=email, password=password)
+
+    return user
+
+def get_users():
+    """Return all users."""
+
+    return User.query.all()
+
+
+def get_user_by_id(user_id):
+    """Return a user by primary key."""
+
+    return User.query.get(user_id)
+
+
+def get_user_by_email(email):
+    """Return a user by email."""
+
+    return User.query.filter(User.email == email).first()
+
+
+
+def create_ingredient(ingredient_name):
+    """Create and return a new ingredient."""
+
+    ingredient = Ingredient(ingredient_name=ingredient_name)
+
+    return ingredient
+
+
+def get_ingredient():
+    """Return all ingredients."""
+
+    return Ingredient.query.all()
+
+
+def get_ingredient_by_id(ingredient_id):
+    """Return an ingredient by primary key."""
+
+    return Ingredient.query.get(ingredient_id)
+
+def get_ingredient_by_name(ingredient_name):
+    """Return an ingredient by name."""
+
+    return Ingredient.query.get(ingredient_name)
+
+def get_ingredient_id_by_name(ingredient_name):
+    """Return an ingredient ID by name."""
+    #gets are only for primary keys
+    ig_name = Ingredient.query.filter_by(ingredient_name=ingredient_name).one()
+
+
+    return ig_name.ingredient_id
+
+
+
+
+
+
+
+
+def create_altingredient(ingredient_id, alt_ingredient_name):
+    """Create and return a new alternate ingredient."""
+
+    altingredient = AltIngredient(ingredient_id=ingredient_id, alt_ingredient_name=alt_ingredient_name)
+
+    return altingredient
+
+
+def get_altingredient():
+    """Return all alt ingredients."""
+
+    return AltIngredient.query.all()
+
+
+#get all altnames based off of ingredient id name
+
+def get_alt_ingredients_by_id(ingredient_id):
+    """Return a list of alt ingredients by ingredientID."""
+    alt_ing_list = []
+    for alting in AltIngredient.query.filter_by(ingredient_id=ingredient_id).all():
+        alt_ing_list.append(alting.alt_ingredient_name)
+    
+    AltIngredient.alt_ingredient_name.all()
+    
+
+    AltIngredient.alt_ingredient_name.query.filter_by(ingredient_id=ingredient_id).all()
+   
+    return alt_ing_list
+
+# def get_alt_ingredients_by_id(ingredient_id):
+#     """Return a list of alt ingredients by ingredientID."""
+#     alt_ing_list = []
+#     for alting in AltIngredient.query.filter_by(ingredient_id=ingredient_id).all():
+#         alt_ing_list.append(alting.alt_ingredient_name)
+   
+#     return alt_ing_list
+
+
+def get_alt_ingredient_by_id(ingredient_id):
+    """Return an alt ingredient by ingredientID."""
+
+    return AltIngredient.query.get(ingredient_id)
+
+def get_alt_ingredient_by_name(alt_ingredient_name):
+    """Return an alt ingredient by it's name."""
+
+    return AltIngredient.query.get(alt_ingredient_name)
+
+
+
+def create_useringredient(user_id, ingredient_id):
+    """Create and return a new user ingredient."""
+
+    useringredient = UserIngredient(user_id=user_id, ingredient_id=ingredient_id)
+
+    return useringredient
+
+    ###FUNCTION TO GET ALL OF THESE
+    ###FUNCTION TO GET AL OF THESE BY USER ID
+
+def create_product(product_name, product_type):
+    """Create and return a new product."""
+
+    product = Product(product_name=product_name, product_type=product_type)
+
+    return product
+
+def get_product():
+    """Return all products."""
+
+    return Product.query.all()
+
+def get_product_name_list(search_term):
+    """Return products that start with the search term"""
+
+    return Product.query.filter(Product.product_name.like(f'%{search_term}%')).all()
+
+# def get_product_name_list():
+#     """Return product names"""
+#     prod_name_list = []
+
+#     for prod in Product.query.all():
+#         prod_name_list.append(prod.product_name)
+#     return prod_name_list
+
+
+    ##FUNCTION TO GET ALL OF THESE
+    ##FUNCTION TO GET THIS BY PRODUCT NAME
+    ##FUNCTION TO GET ALL BY PRODUCT TYPE?
+
+def get_productingredients_by_product(product_name):
+    """return a list of product ingredients by product names"""
+    prod_ing_list = []
+
+    pr_name = Product.query.filter_by(product_name=product_name).one()
+    pr_id = pr_name.product_id
+
+    for proding in ProductIngredient.query.filter_by(product_id=pr_id).all():
+        prod_ing_list.append(proding.ingredient)
+   
+    return prod_ing_list
+
+
+def get_product_id_by_name(product_name):
+    """Return a product ID by name."""
+    #gets are only for primary keys
+    pr_name = Product.query.filter_by(product_name=product_name).one()
+
+    return pr_name.product_id
+
+
+def create_productingredient(product_id, ingredient):
+    """Create and return a new product ingredient."""
+
+    productingredient = ProductIngredient(product_id=product_id, ingredient=ingredient)
+
+    return productingredient
+
+    ##FUNCTION TO RETURN ALL OF THESE
+    ##FUNCTION TO RETURN ALL BY PRODUCT NAME
+
+def create_searchedproduct(user_id, product_id, approved, favorited):
+    """Create and return a new searchedproduct."""
+
+    searchedproduct = SearchedProduct(user_id=user_id, product_id=product_id, approved=approved, favorited=favorited)
+
+    return searchedproduct
+
+    ##FUNCTION TO RETURN ALL OFTHESE
+    ##FUNCTION TO RETURN THESE BY USER
+    ##FUNCTION TO FIGURE OUT IF THESE ARE APPROVED OR NOT? (LOOKAT CRUD FROM MOVIE LAB)
+
+def compare_lists(list_1, list_2):
+    """Compare allergy and product ingredients
+    if they share an ingredient, print True and the ingredient(s), otherwise False"""
+
+    a_set = set(list_1)
+    b_set = set(list_2)
+    if len(a_set.intersection(b_set)) > 0:
+        print(a_set.intersection(b_set))
+        return True
+    return False
+
+def make_full_allergy_list(allergy_input):
+    """Takes users checkboxed broad allergy input,
+    creates list of all specific allergic"""
+    full_allergy_list = []
+
+    for item in allergy_input:
+        i_id = get_ingredient_id_by_name(item)
+        alt_list = get_alt_ingredients_by_id(i_id)
+        full_allergy_list.extend(alt_list)
+
+    return full_allergy_list
+
+
+    -----------------------------------------------------------------
+    OLD SEED database
+
+    """Script to seed database."""
+
+import os
+import json
+
+import crud
+import model
+import server
+
+os.system("dropdb allergyingredients")
+os.system("createdb allergyingredients")
+
+model.connect_to_db(server.app)
+model.db.create_all()
+
+# Load bad ingredients from JSON file
+import codecs
+
+badingredients = json.load(codecs.open('data/avoidingredients.json', 'r', 'utf-8-sig'))
+
+productlist = json.load(codecs.open('data/products.json', 'r', 'utf-8-sig'))
+
+
+# Create ingredients and store them in list
+print(badingredients)
+
+
+# in one for loop i can create the irritant group and add them ot new ingredients
+
+# in products, 
+
+###Adds irritant groups from baddies dictionary
+for n_irritant in badingredients:
+
+    db_irritantgroup = crud.create_irritantgroup(n_irritant)
+    model.db.session.add(db_irritantgroup)
+    ig_id = db_irritantgroup.irritantgroup_id
+    for ingredient in badingredients[n_irritant]:
+        db_ingredient = crud.create_ingredient(ig_id, ingredient)
+        model.db.session.add(db_ingredient)
+
+model.db.session.commit()
+
+for n_ingredient in badingredients:
+    n_id = crud.get_irritantgroup_id_by_name(n_ingredient)
+
+    for alt_in in badingredients[n_ingredient]:
+        db_altingredient = crud.create_altingredient(n_id, alt_in)
+        model.db.session.add(db_altingredient)
+
+model.db.session.commit()
+#for each ingredient, find it's ingredient ID,
+    #Loop through each value in the dict for that ingredient
+    #do crud.create_altingredient(ingredient_id, alt_ingredient_name) function 
+    #add that to the session
+
+# Create Products and store them in database
+
+for n_product in productlist:
+    product_name, product_type = (
+        n_product["name"],
+        n_product["type"],
+    )
+    db_product = crud.create_product(product_name, product_type)
+    model.db.session.add(db_product)
+
+model.db.session.commit()
+
+for n_product in productlist:
+    n_id = crud.get_product_id_by_name(n_product["name"])
+
+    for pr_in in n_product["ingredients"]:
+        db_prodingredient = crud.create_productingredient(n_id, pr_in) ###maybe we dont need this now?
+        model.db.session.add(db_prodingredient)
+
+model.db.session.commit()
+
+# Create 10 users
+for n in range(10):
+    email = f"user{n}@test.com"
+    password = "test"
+
+    user = crud.create_user(email, password)
+    model.db.session.add(user)
+
+model.db.session.commit()

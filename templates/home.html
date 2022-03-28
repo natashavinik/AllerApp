@@ -12,12 +12,12 @@
   <h1>Welcome!</h1>
 
 
-  <form id = "Check" method="POST" action = "/submitirritants">
+  <form id = "Check">
     Which irritants would you like to avoid? <p>
   
     {% for irritant in irritants %}
 
-    <input type="checkbox" name="irritants" value="{{ irritant.irritantgroup_name }}" id="{{ irritant.irritantgroup_name }}-irritant">
+    <input type="checkbox" name="irritants" value="{{ irritant.irritantgroup_name }}" id="{{ irritant.irritantgroup_name }}">
     <label for="{{ irritant.irritantgroup_name }}-irritant">{{ irritant.irritantgroup_name }}</label>
 
     {% endfor %}
