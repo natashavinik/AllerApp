@@ -22,36 +22,54 @@ def home():
 
     return render_template("home.html", irritants=irritants, products=products)
 
-@app.route("/submitirritants", methods=['GET'])
+@app.route("/submitirritants", methods=['GET','POST'])
 def submit_irritants():
-    """Add chosen irritants to userirritants table.
+    """Add chosen irritants to tempolist.
     Compare to ingredients in chosen product """
-
-
+    logged_in_email = session.get("user_email")
+    if logged_in_email is None:
+        allergylist = request.args.get('irritants').split(",")
+        # print(type(allergylist))
+        # print("\n"*4)
+        # print(allergylist)
+        chosen_product = request.args.get('search')
+        # print("\n"*4)
+        # print(chosen_product)
+        # print("\n"*4)
+        ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
+        # print("\n"*4)
+        # print("bob")
+        # print(ig_by_pr)
+        # print("bob")
+        # print("\n"*4)
+        if ig_by_pr:
+            return (f'Boo, you are allergic to {chosen_product}')
+        else:
+            return (f'Yay! You are not allergic to {chosen_product}!')
     
-    allergylist = request.args.get('irritants').split(",")
-    print(type(allergylist))
-    print("\n"*4)
-    print(allergylist)
-    # full_allergy_list = crud.make_full_allergy_list(allergylist)
-    # ### do this w/ sqlAlchemy queries like the productname list
+    else: 
+        allergylist = request.args.get('irritants').split(",")
+        user_id = crud.get_user_by_email(logged_in_email).user_id
+        print("\n"*4)
+        print(user_id)
+        print("\n"*4)
+        for allergy in allergylist:
+            irritantgroup_id = crud.get_irritantgroup_id_by_name(allergy)
+            irritantgroup = crud.create_userirritantgroup(user_id, irritantgroup_id)
+            db.session.add(irritantgroup)
+        db.session.commit()
+        chosen_product = request.args.get('search')
+        ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
+        #ig_by_pr
+        #maybe make ig_by_pr like a varible to pass through product to searched products
+        #crud function that adds product to searched products
+        if ig_by_pr:
+            return (f'Boo, you are allergic to {chosen_product}')
+        else:
+            return (f'Yay! You are not allergic to {chosen_product}!')
+        #mabye something in react later where once thish appens it addes product to react list
 
-    chosen_product = request.args.get('search')
-    print("\n"*4)
-    print(chosen_product)
-    print("\n"*4)
-    ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
-    print("\n"*4)
-    print("bob")
-    print(ig_by_pr)
-    print("bob")
-    print("\n"*4)
-
-
-    if ig_by_pr:
-        return (f'Boo, you are allergic to {chosen_product}')
-    else:
-        return (f'Yay! You are not allergic to {chosen_product}!')
+    #maybe something about how if a user is not in session, it does a different form?
     
 
 @app.route('/search', methods=['POST'])
@@ -75,12 +93,15 @@ def search():
 
 @app.route("/users/<user_id>")
 def show_user(user_id):
-    """Show details on a particular user."""
+    """Show details on a user."""
 
     user = crud.get_user_by_id(user_id)
-    ratings = crud.get_ratings_by_user(user_id);
+    # ratings = crud.get_ratings_by_user(user_id);
+    irritants = crud.get_irritantgroup()
+    products = crud.get_product()
+    user_irritantgroups = crud.get_user_irritantgroups_by_user_id(user_id)
 
-    return render_template("user_details.html", user=user, ratings=ratings)
+    return render_template("user_details.html", user=user, irritants=irritants, products=products, user_irritantgroups=user_irritantgroups)
 
 
 @app.route("/register", methods=["POST"])
@@ -112,12 +133,12 @@ def process_login():
     user = crud.get_user_by_email(email)
     if not user or user.password != password:
         flash("The email or password you entered was incorrect.")
+        return redirect("/")
     else:
         # Log in user by storing the user's email in session
         session["user_email"] = user.email
-        flash(f"Welcome back, {user.email}!")
-
-    return redirect("/")
+        flash(f"Welcome back, {user.email}, {user.user_id}!")
+        return redirect(f"/users/{user.user_id}")
 
    #BELOW IS THE CODE WE'LL WANT TO USE ON USER LOGIN PAGES
     # if request.method =='POST':

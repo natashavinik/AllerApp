@@ -3,41 +3,49 @@
 
 {% block body %}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" crossorigin="anonymous"></script>
-    <script src="static/homejs.js"></script>
+    <script src="/static/homejs.js"></script>
 <p>
 </p>
 
-  <h1>Welcome!</h1>
 
-  Section where we have checkboxes already checked of allergies that are listed, or we just list their allergies
-<form method="POST" action = "/submitingredients">
-    Which ingredients would you like to avoid? <p>
-  
-    {% for ingredient in ingredients %}
+<!--  start with code where if this user has no user irritants, they have a normal empty checkbox form
+if they do have irritants they automatically have them checked and saved here -->
+<form id = "Check">
+  Which irritants would you like to avoid? <p>
 
-    <input type="checkbox" name="ingredients" value="{{ ingredient.ingredient_name }}" id="{{ ingredient.ingredient_name }}-ingredient">
-    <label for="{{ ingredient.ingredient_name }}-ingredient">{{ ingredient.ingredient_name }}</label>
+  {% for irritant in irritants %}
 
-    {% endfor %}
-  Area to search a product
+  <input type="checkbox" name="irritants" value="{{ irritant.irritantgroup_name }}" id="{{ irritant.irritantgroup_name }}">
+  <label for="{{ irritant.irritantgroup_name }}-irritant">{{ irritant.irritantgroup_name }}</label>
 
-  <label>Search Here</label>&nbsp;&nbsp;<input type="text" name="search" id="searchBox"/>
-
-    <button id="Check" type="submit">Check!</button>
-</form>
+  {% endfor %}
 
 <p>
+<label>Search Here</label>&nbsp;&nbsp;<input type="text" name="search" id="searchBox"/>
+
+  <button type="submit">Check!</button>
+</form>
+
+<div id="result-text"></div>
+<p>
+
+  Your saved irritant groups are:
+  <ul>
+    {% for user_irritantgroup in user_irritantgroups %}
+    <li>{{ user_irritantgroup.irritantgroup_name  }}</li>
+    {% endfor %}
+  </ul> <p></p>
   area with bookmarked products <p>
 
   are with products they have looked up.
 
 
 
-<p>
 
+<p>
+  <script src="/static/prodresults.js"></script>
 
   
 

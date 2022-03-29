@@ -80,7 +80,7 @@ def get_ingredients():
 #get all altnames based off of ingredient id name
 
 def get_ingredients_by_group_id(irritantgroup_id):
-    """Return a list of alt ingredients by ingredientID."""
+    """Return a list of all ingredients by irritantgroupID."""
     
     return Ingredient.query.filter_by(irritantgroup_id=irritantgroup_id).all()
 
@@ -124,6 +124,13 @@ def get_ingredients_by_product(productname):
     return Ingredient.query.join(ProductIngredient).join(Product).filter(Product.product_name == productname).all()
 
 
+def create_user_irritantgroup_allergylist(user_id, allergylist):
+    """Create and return a new user irritant group from allergy list."""
+    for allergy in allergylist:
+        irritantgroup_id = get_irritantgroup_id_by_name(allergy)
+        bob = create_userirritantgroup(user_id, irritantgroup_id)
+    return bob
+    # return UserIrritantGroup.query.filter_by(user_id = user_id).all()
 
 def create_userirritantgroup(user_id, irritantgroup_id):
     """Create and return a new user irritant group."""
@@ -131,6 +138,12 @@ def create_userirritantgroup(user_id, irritantgroup_id):
     userirritantgroup = UserIrritantGroup(user_id=user_id, irritantgroup_id=irritantgroup_id)
 
     return userirritantgroup
+
+def get_user_irritantgroups_by_user_id(user_id):
+    """Get user irritant groups by a users id"""
+    
+    return IrritantGroup.query.join(UserIrritantGroup).join(User).filter(User.user_id == user_id).all()
+    # return UserIrritantGroup.query.filter(user_id = user_id).all()
 
     ###FUNCTION TO GET ALL OF THESE
     ###FUNCTION TO GET AL OF THESE BY USER ID
