@@ -18,7 +18,8 @@ class User(db.Model):
     password = db.Column(db.String)
 
     irritantgroups = db.relationship("IrritantGroup", secondary="userirritantgroups", back_populates="users") 
-    searchedproducts = db.relationship("SearchedProduct", back_populates="user") 
+    # searchedproducts = db.relationship("SearchedProduct", back_populates="user") 
+    product = db.relationship("Product", secondary="searchedproducts", back_populates="users")
 
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
@@ -82,11 +83,12 @@ class Product(db.Model):
     product_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     product_name = db.Column(db.String)
     product_type = db.Column(db.String)
+    product_brand = db.Column(db.String)
 
-    searchedproducts = db.relationship('SearchedProduct', back_populates="product") 
+    # searchedproducts = db.relationship('SearchedProduct', back_populates="product") 
 
     ingredients = db.relationship('Ingredient', secondary="productingredients", back_populates="products")
-
+    users = db.relationship("User", secondary="searchedproducts", back_populates="product")
 
     def __repr__(self):
         return f"<Product product_id={self.product_id} product_name={self.product_name}>"
@@ -109,12 +111,13 @@ class SearchedProduct(db.Model):
 
     searched_product_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
-    product_id = db.Column(db.Integer, db.ForeignKey('products.product_id'))
+    product_id = db.Column(db.Integer, db.ForeignKey("products.product_id"))
+    
     favorited = db.Column(db.Boolean)
     approved = db.Column(db.Boolean)
 
-    user = db.relationship('User', back_populates="searchedproducts") 
-    product = db.relationship('Product', back_populates="searchedproducts") 
+    # user = db.relationship('User', back_populates="searchedproducts") 
+    # product = db.relationship('Product', back_populates="searchedproducts") 
 
 
     def __repr__(self):

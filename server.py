@@ -27,47 +27,54 @@ def submit_irritants():
     """Add chosen irritants to tempolist.
     Compare to ingredients in chosen product """
     logged_in_email = session.get("user_email")
-    if logged_in_email is None:
-        allergylist = request.args.get('irritants').split(",")
-        # print(type(allergylist))
-        # print("\n"*4)
-        # print(allergylist)
-        chosen_product = request.args.get('search')
-        # print("\n"*4)
-        # print(chosen_product)
-        # print("\n"*4)
-        ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
-        # print("\n"*4)
-        # print("bob")
-        # print(ig_by_pr)
-        # print("bob")
-        # print("\n"*4)
-        if ig_by_pr:
-            return (f'Boo, you are allergic to {chosen_product}')
-        else:
-            return (f'Yay! You are not allergic to {chosen_product}!')
-    
-    else: 
-        allergylist = request.args.get('irritants').split(",")
+    #Below for if it's a non-user on the general page
+    # if logged_in_email is None:
+    allergylist = request.args.get('irritants').split(",")
+    chosen_product = request.args.get('search')
+    ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
+    if logged_in_email:
         user_id = crud.get_user_by_email(logged_in_email).user_id
-        print("\n"*4)
-        print(user_id)
-        print("\n"*4)
         for allergy in allergylist:
             irritantgroup_id = crud.get_irritantgroup_id_by_name(allergy)
             irritantgroup = crud.create_userirritantgroup(user_id, irritantgroup_id)
             db.session.add(irritantgroup)
-        db.session.commit()
-        chosen_product = request.args.get('search')
-        ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
-        #ig_by_pr
-        #maybe make ig_by_pr like a varible to pass through product to searched products
-        #crud function that adds product to searched products
+            db.session.commit()
+        product_id = crud.get_product_id_by_name(chosen_product)
         if ig_by_pr:
-            return (f'Boo, you are allergic to {chosen_product}')
+            approved = False
         else:
-            return (f'Yay! You are not allergic to {chosen_product}!')
-        #mabye something in react later where once thish appens it addes product to react list
+            approved = True
+        searchedproduct = crud.create_searchedproduct(user_id=user_id, product_id = product_id, approved = approved, favorited = None)
+        db.session.add(searchedproduct)
+        db.session.commit()
+
+    if ig_by_pr:
+        return (f'Boo, you are allergic to {chosen_product}')
+    else:
+        return (f'Yay! You are not allergic to {chosen_product}!')
+    #Below for if it's a signed in user
+    # else: 
+    #     allergylist = request.args.get('irritants').split(",")
+    #     user_id = crud.get_user_by_email(logged_in_email).user_id
+    #     print("\n"*4)
+    #     print(user_id)
+    #     print("\n"*4)
+    #     for allergy in allergylist:
+    #         irritantgroup_id = crud.get_irritantgroup_id_by_name(allergy)
+    #         irritantgroup = crud.create_userirritantgroup(user_id, irritantgroup_id)
+    #         db.session.add(irritantgroup)
+    #     db.session.commit()
+    #     chosen_product = request.args.get('search')
+    #     # ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
+    #     # product_id = crud.get_product_id_by_name
+    #     # searchedproduct = crud.create_searchedproduct(user_id, product_id, approved, favorited)
+    #     #maybe make ig_by_pr like a varible to pass through product to searched products
+    #     #crud function that adds product to searched products
+    #     if ig_by_pr:
+    #         return (f'Boo, you are allergic to {chosen_product}')
+    #     else:
+    #         return (f'Yay! You are not allergic to {chosen_product}!')
+    #     #mabye something in react later where once thish appens it addes product to react list
 
     #maybe something about how if a user is not in session, it does a different form?
     
@@ -100,8 +107,9 @@ def show_user(user_id):
     irritants = crud.get_irritantgroup()
     products = crud.get_product()
     user_irritantgroups = crud.get_user_irritantgroups_by_user_id(user_id)
+    user_searchedproducts = crud.get_searched_products_by_user_id(user_id)
 
-    return render_template("user_details.html", user=user, irritants=irritants, products=products, user_irritantgroups=user_irritantgroups)
+    return render_template("user_details.html", user=user, irritants=irritants, products=products, user_irritantgroups=user_irritantgroups, user_searchedproducts=user_searchedproducts)
 
 
 @app.route("/register", methods=["POST"])

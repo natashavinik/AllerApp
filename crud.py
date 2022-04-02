@@ -189,6 +189,12 @@ def get_product_id_by_name(product_name):
     ##FUNCTION TO RETURN ALL OF THESE
     ##FUNCTION TO RETURN ALL BY PRODUCT NAME
 
+def get_searched_products_by_user_id(user_id):
+    """get products a user has searched for"""
+    return Product.query.join(SearchedProduct).join(User).filter(User.user_id == user_id).all()
+    
+
+
 def create_searchedproduct(user_id, product_id, approved, favorited):
     """Create and return a new searchedproduct."""
 

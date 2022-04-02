@@ -16,10 +16,14 @@ if they do have irritants they automatically have them checked and saved here --
   Which irritants would you like to avoid? <p>
 
   {% for irritant in irritants %}
+    {% if irritant in user_irritantgroups %}
+      <input type="checkbox" checked name="irritants" value="{{ irritant.irritantgroup_name }}" id="{{ irritant.irritantgroup_name }}">
+      <label for="{{ irritant.irritantgroup_name }}-irritant">{{ irritant.irritantgroup_name }}</label>
+    {% else %}
+    <input type="checkbox" name="irritants" value="{{ irritant.irritantgroup_name }}" id="{{ irritant.irritantgroup_name }}">
+    <label for="{{ irritant.irritantgroup_name }}-irritant">{{ irritant.irritantgroup_name }}</label>
 
-  <input type="checkbox" name="irritants" value="{{ irritant.irritantgroup_name }}" id="{{ irritant.irritantgroup_name }}">
-  <label for="{{ irritant.irritantgroup_name }}-irritant">{{ irritant.irritantgroup_name }}</label>
-
+  {% endif %}
   {% endfor %}
 
 <p>
@@ -38,6 +42,12 @@ if they do have irritants they automatically have them checked and saved here --
     {% endfor %}
   </ul> <p></p>
   area with bookmarked products <p>
+    Your saved searched products are:
+  <ul>
+    {% for user_searchedproduct in user_searchedproducts %}
+    <li>{{ user_searchedproduct.product_name}}</li>
+    {% endfor %}
+  </ul> <p></p>
 
   are with products they have looked up.
 

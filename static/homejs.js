@@ -16,14 +16,14 @@ $(function() {
                 success : function(data) {
                     //alert(data);
                     //console.log(data);
-                    response(data);
+                    response(data.slice(0,5));
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(textStatus + " " + errorThrown);
                 }
             });
         },
-        minLength : 1
+        minLength : 3
     });
 });
 
