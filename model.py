@@ -113,6 +113,9 @@ class SearchedProduct(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     product_id = db.Column(db.Integer, db.ForeignKey("products.product_id"))
     
+    products = db.relationship("Product", backref="searchedproducts")
+
+
     favorited = db.Column(db.Boolean)
     approved = db.Column(db.Boolean)
 
@@ -121,7 +124,7 @@ class SearchedProduct(db.Model):
 
 
     def __repr__(self):
-        return f"<SearchedProduct Searched_product_id={self.searched_product_id} product_id={self.product_id}>"
+        return f"<SearchedProduct Searched_product_id={self.searched_product_id} product_id={self.product_id} favorited={self.favorited} approved={self.approved}>"
 
 
 

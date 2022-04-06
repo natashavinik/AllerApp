@@ -41,21 +41,51 @@ if they do have irritants they automatically have them checked and saved here --
     <li>{{ user_irritantgroup.irritantgroup_name  }}</li>
     {% endfor %}
   </ul> <p></p>
-  area with bookmarked products <p>
-    Your saved searched products are:
+  Here are your favorite products:
+  <p>
+    {% for user_searchedproduct in user_searchedproducts %}
+    {% if user_searchedproduct.favorited == True %}
+    <div>
+    {{ user_searchedproduct.products.product_name }}</div>
+    {% endif %}
+    {% endfor %}
+    <div id="fav-text"></div>
+<p> <p></p>
+  
+    You can have these products:
   <ul>
     {% for user_searchedproduct in user_searchedproducts %}
-    <li>{{ user_searchedproduct.product_name}}</li>
+    {% if user_searchedproduct.approved == True %}
+    <div><form id="addtofav">
+    {{ user_searchedproduct.products.product_name }}({{ user_searchedproduct.products.product_type }})
+    <p> <button id="favorite" value="{{user_searchedproduct.searched_product_id}}">Add to favorites</button></form>
+
+  </div>
+    {% endif %}
     {% endfor %}
   </ul> <p></p>
 
+  
+    You are allergic to these products:
+    <p></p>
+  <ul>
+    {% for user_searchedproduct in user_searchedproducts %}
+      {% if user_searchedproduct.approved == False %}
+      <div>
+        {{ user_searchedproduct.products.product_name }}({{ user_searchedproduct.products.product_type }})
+        </div>
+      {% endif %}
+    {% endfor %}
+  </ul> 
+
   are with products they have looked up.
 
-
+ 
 
 
 <p>
   <script src="/static/prodresults.js"></script>
+  <script src="/static/addtofav.js"></script>
 
   
 

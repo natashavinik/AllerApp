@@ -41,43 +41,40 @@ def submit_irritants():
             db.session.commit()
         product_id = crud.get_product_id_by_name(chosen_product)
         if ig_by_pr:
+            print ("\n" * 4 )
+            print(ig_by_pr)
+            print('wow')
+            print(crud.get_ingredients_in_ig_group(chosen_product))
+            print("\n" * 4 )
             approved = False
         else:
             approved = True
-        searchedproduct = crud.create_searchedproduct(user_id=user_id, product_id = product_id, approved = approved, favorited = None)
-        db.session.add(searchedproduct)
-        db.session.commit()
+        already_searched = crud.searchedproduct_by_userid_productid(user_id, product_id)
+        if not already_searched:
+            searchedproduct = crud.create_searchedproduct(user_id=user_id, product_id = product_id, approved = approved, favorited = None)
+            db.session.add(searchedproduct)
+            db.session.commit()
 
     if ig_by_pr:
         return (f'Boo, you are allergic to {chosen_product}')
     else:
         return (f'Yay! You are not allergic to {chosen_product}!')
-    #Below for if it's a signed in user
-    # else: 
-    #     allergylist = request.args.get('irritants').split(",")
-    #     user_id = crud.get_user_by_email(logged_in_email).user_id
-    #     print("\n"*4)
-    #     print(user_id)
-    #     print("\n"*4)
-    #     for allergy in allergylist:
-    #         irritantgroup_id = crud.get_irritantgroup_id_by_name(allergy)
-    #         irritantgroup = crud.create_userirritantgroup(user_id, irritantgroup_id)
-    #         db.session.add(irritantgroup)
-    #     db.session.commit()
-    #     chosen_product = request.args.get('search')
-    #     # ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
-    #     # product_id = crud.get_product_id_by_name
-    #     # searchedproduct = crud.create_searchedproduct(user_id, product_id, approved, favorited)
-    #     #maybe make ig_by_pr like a varible to pass through product to searched products
-    #     #crud function that adds product to searched products
-    #     if ig_by_pr:
-    #         return (f'Boo, you are allergic to {chosen_product}')
-    #     else:
-    #         return (f'Yay! You are not allergic to {chosen_product}!')
-    #     #mabye something in react later where once thish appens it addes product to react list
-
-    #maybe something about how if a user is not in session, it does a different form?
+ 
+@app.route('/addfavorite', methods=['GET', 'POST'])
+def add_favorite():
+    """adds that searched product to a users favorites/ changes the objects favorite attribute"""
+    favobj = request.args.get('name')
+    print(favobj)
+    fproduct = crud.searchedproduct_by_id(favobj)
+    fproduct.favorited = True
+    db.session.commit()
     
+
+
+    return (f"{fproduct} has been added to your favorites!")
+
+
+
 
 @app.route('/search', methods=['POST'])
 def search():

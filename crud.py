@@ -106,7 +106,11 @@ def get_irritantgroups_by_product(chosenproduct, allergylist):
 
 #(each of above can do .irritantgroup.irritantgroup_name) for latesss
 
+def get_ingredients_in_ig_group(chosenproduct):
 
+    return Ingredient.query.filter(Ingredient.irritantgroup_id.is_not(None))\
+                     .join(ProductIngredient).join(Product)\
+                     .filter(Product.product_name == chosenproduct).all()
 
 
 def get_ingredient_by_id(ingredient_id):
@@ -191,7 +195,8 @@ def get_product_id_by_name(product_name):
 
 def get_searched_products_by_user_id(user_id):
     """get products a user has searched for"""
-    return Product.query.join(SearchedProduct).join(User).filter(User.user_id == user_id).all()
+    # return Product.query.join(SearchedProduct).join(User).filter(User.user_id == user_id).all()
+    return SearchedProduct.query.outerjoin(Product).join(User).filter(User.user_id == user_id).all()
     
 
 
@@ -201,6 +206,16 @@ def create_searchedproduct(user_id, product_id, approved, favorited):
     searchedproduct = SearchedProduct(user_id=user_id, product_id=product_id, approved=approved, favorited=favorited)
 
     return searchedproduct
+
+def searchedproduct_by_id(sp_id):
+    """return searched product by id"""
+    return SearchedProduct.query.filter_by(searched_product_id=sp_id).one()
+
+
+
+def searchedproduct_by_userid_productid(users_id, products_id):
+    """return searched product byproduct id and user"""
+    return SearchedProduct.query.filter_by(user_id = users_id, product_id = products_id).all()
 
     ##FUNCTION TO RETURN ALL OFTHESE
     ##FUNCTION TO RETURN THESE BY USER
