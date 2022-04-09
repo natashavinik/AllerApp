@@ -34,8 +34,6 @@ document.querySelector('#Check').addEventListener('submit', evt => {
             prod_string = `${prod_string}<li>${k["name"]}<button class="favorite" value="${prod_id}">Add to favorites</button></li>`;
             console.log(prod_string);
         };
-
-        
         
             document.querySelector(`.${site_area}`).innerHTML = prod_string;
         })
