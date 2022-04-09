@@ -58,7 +58,7 @@ if they do have irritants they automatically have them checked and saved here --
 
 <!-- <div class="favproducts" name="{{user_searchedproducts}}"></div> -->
     <h3>You can have these products:</h3>
-  <ul>
+  <ul class = "notallergic">
     {% for user_searchedproduct in user_searchedproducts %}
     {% if user_searchedproduct.approved == True %}
     <div>
@@ -73,7 +73,7 @@ if they do have irritants they automatically have them checked and saved here --
   
     <h3>You are allergic to these products:</h3>
     <p></p>
-  <ul>
+  <ul class="allergic">
     {% for user_searchedproduct in user_searchedproducts %}
       {% if user_searchedproduct.approved == False %}
       <div>

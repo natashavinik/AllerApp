@@ -37,7 +37,7 @@ document.querySelector('#Check').addEventListener('submit', evt => {
 
         
         
-            document.querySelector('#result-text').innerHTML = prod_string;
+            document.querySelector(`.${site_area}`).innerHTML = prod_string;
         })
 
     });
