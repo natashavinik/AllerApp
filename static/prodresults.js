@@ -29,17 +29,35 @@ document.querySelector('#Check').addEventListener('submit', evt => {
         let prod_id = (result[1]["cp"]);
         let prodlist = (result[2]["allprods"]);
         let prod_string = "";
-        for (const k of prodlist) {
-            console.log(k["name"]);
-            prod_string = `${prod_string}<li>${k["name"]}<button class="favorite" value="${prod_id}">Add to favorites</button></li>`;
-            console.log(prod_string);
-        };
+        if(site_area==="notallergic") {
+            for (const k of prodlist) {
+                console.log(k["name"]);
+                prod_string = `${prod_string}<li>${k["name"]}<button class="favorite" value="${prod_id}">Add to favorites</button></li>`;
+                console.log(prod_string);
+            };
+        }else{
+            for (const k of prodlist) {
+                console.log(k["name"]);
+                prod_string = `${prod_string}<li>${k["name"]}</li>`;
+                console.log(prod_string);
+            };
+        }
         
             document.querySelector(`.${site_area}`).innerHTML = prod_string;
         })
 
     });
 
+//     for (const k of prodlist) {
+//         console.log(k["name"]);
+//         prod_string = `${prod_string}<li>${k["name"]}<button class="favorite" value="${prod_id}">Add to favorites</button></li>`;
+//         console.log(prod_string);
+//     };
+    
+//         document.querySelector(`.${site_area}`).innerHTML = prod_string;
+//     })
+
+// });
 
 
 
