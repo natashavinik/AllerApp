@@ -34,39 +34,44 @@ if they do have irritants they automatically have them checked and saved here --
 
 <div id="result-text"></div>
 <p>
+<p></p>
 
-  Your saved irritant groups are:
+  <h3>Your saved irritant groups are:</h3>
   <ul>
     {% for user_irritantgroup in user_irritantgroups %}
     <li>{{ user_irritantgroup.irritantgroup_name  }}</li>
     {% endfor %}
   </ul> <p></p>
-  Here are your favorite products:
+
+  <h3>Here are your favorite products:</h3>
   <p>
+    <ul class="favorite-product">
     {% for user_searchedproduct in user_searchedproducts %}
-    {% if user_searchedproduct.favorited == True %}
-    <div>
-    {{ user_searchedproduct.products.product_name }}</div>
-    {% endif %}
+      {% if user_searchedproduct.favorited == True %}
+      <li>
+      {{ user_searchedproduct.products.product_name }}</li>
+     {% endif %}
     {% endfor %}
+  </ul>
     <div id="fav-text"></div>
 <p> <p></p>
-  
-    You can have these products:
+
+<!-- <div class="favproducts" name="{{user_searchedproducts}}"></div> -->
+    <h3>You can have these products:</h3>
   <ul>
     {% for user_searchedproduct in user_searchedproducts %}
     {% if user_searchedproduct.approved == True %}
-    <div><form id="addtofav">
+    <div>
     {{ user_searchedproduct.products.product_name }}({{ user_searchedproduct.products.product_type }})
-    <p> <button id="favorite" value="{{user_searchedproduct.searched_product_id}}">Add to favorites</button></form>
-
-  </div>
+    <p> <button class="favorite" name="{{user_searchedproducts}}" value="{{user_searchedproduct.searched_product_id}}">Add to favorites</button>
+    </p></div>
+  
     {% endif %}
     {% endfor %}
   </ul> <p></p>
 
   
-    You are allergic to these products:
+    <h3>You are allergic to these products:</h3>
     <p></p>
   <ul>
     {% for user_searchedproduct in user_searchedproducts %}
@@ -78,16 +83,15 @@ if they do have irritants they automatically have them checked and saved here --
     {% endfor %}
   </ul> 
 
-  are with products they have looked up.
+<!-- <h1> react components attempt </h1>
+<div id="root"></div>
+    <script src="/static/components/SafeSearched.jsx" type="text/jsx"></script> -->
 
- 
-
-
-<p>
   <script src="/static/prodresults.js"></script>
   <script src="/static/addtofav.js"></script>
-
-  
+<!-- 
+  User id as a hidden input, in fetch I can get that value, so I can get the route i'm fetching
+ -->
 
 
 {% endblock %}

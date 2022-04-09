@@ -50,29 +50,82 @@ def submit_irritants():
         else:
             approved = True
         already_searched = crud.searchedproduct_by_userid_productid(user_id, product_id)
+
         if not already_searched:
             searchedproduct = crud.create_searchedproduct(user_id=user_id, product_id = product_id, approved = approved, favorited = None)
             db.session.add(searchedproduct)
             db.session.commit()
+            
+        if ig_by_pr:
+            canhas = "allergic"
+            #function to find searched products allergic to = allprods
+            searchprods = crud.get_allergic_products_by_user_id(user_id)
+            
+        else:
+            canhas = "notallergic"
+            searchprods = crud.get_notallergic_products_by_user_id(user_id)
+            #function to find searched products not allergic = allprods
+        def all_prods(sprod):
+            return{
+                "name":sprod.products.product_name
+            }
+        dict_userprods = list(map(all_prods, searchprods))
 
-    if ig_by_pr:
-        return (f'Boo, you are allergic to {chosen_product}')
-    else:
-        return (f'Yay! You are not allergic to {chosen_product}!')
+        printinfo("dictionary products", dict_userprods)
+
+        searchedprod = crud.searchedproduct_by_userid_productid(user_id, product_id)
+        searchedprod_id = searchedprod.searched_product_id
+
+        # prodid = searchedprod_id.Searched_product_id
+        printinfo("product", searchedprod)
+        printinfo("productid", searchedprod_id)
+        
+        return jsonify([{"canhave":canhas}, {"cp":searchedprod_id}, {"allprods":dict_userprods}])
+    
+    # return jsonify([{"canhave":canhas}, {"cp":chosen_product}, {"allprods":[dict_userprods]}])
+    # if ig_by_pr:
+    #     return (f'Boo, you <b>are allergic</b> to {chosen_product}')
+    # else:
+    #     return (f'Yay! You are <b>not allergic</b> to {chosen_product}!')
  
 @app.route('/addfavorite', methods=['GET', 'POST'])
 def add_favorite():
     """adds that searched product to a users favorites/ changes the objects favorite attribute"""
     favobj = request.args.get('name')
+    print("\n" * 4 )
     print(favobj)
+    print("\n" * 4 )
+
     fproduct = crud.searchedproduct_by_id(favobj)
     fproduct.favorited = True
     db.session.commit()
+    u_id = crud.user_id_by_searchedproduct_id(favobj)
+    u_id = u_id.user_id
+    print("\n" * 4 )
+    print(u_id)
+    print("\n" * 4 )
+    userfavs = crud.get_favorite_products_by_user_id(u_id)
+    print("\n" * 4 )
+    print("wow")
+    print(userfavs)
+    print("wow")
+    print("\n" * 4 )
+    def fun(favorite):
+        return{
+            "id":favorite.products.product_name
+        }
+        
+    dict_userfavs = map(fun, userfavs)
     
 
 
-    return (f"{fproduct} has been added to your favorites!")
 
+    #from searchedproduct get user id (we got user)
+    #from user id get all searchedp roducts
+    return jsonify(list(dict_userfavs))
+
+    # return fproduct.products.product_name
+#jsonify(list(dict_userfavs))
 
 
 
@@ -156,6 +209,12 @@ def process_login():
     #         db.session.commit()
 
 
+def printinfo(label, thingtoprint):
+    print("\n" * 4 )
+    print (label)
+    print (thingtoprint)
+    print("\n" * 4 )
+    return
 
 
 if __name__ == "__main__":

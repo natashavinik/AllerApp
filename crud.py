@@ -196,8 +196,21 @@ def get_product_id_by_name(product_name):
 def get_searched_products_by_user_id(user_id):
     """get products a user has searched for"""
     # return Product.query.join(SearchedProduct).join(User).filter(User.user_id == user_id).all()
-    return SearchedProduct.query.outerjoin(Product).join(User).filter(User.user_id == user_id).all()
-    
+    return SearchedProduct.query.join(Product).join(User).filter(User.user_id == user_id).all()
+
+def get_allergic_products_by_user_id(u_id):
+    """get allergic products by user id"""
+    return SearchedProduct.query.filter_by(user_id = u_id, approved=False).join(Product).all()
+
+def get_notallergic_products_by_user_id(u_id):
+    """get notallergic products by user id"""
+    return SearchedProduct.query.filter_by(user_id = u_id, approved=True).join(Product).all()
+
+
+def get_favorite_products_by_user_id(u_id):
+    """get favorite products by user id"""
+    return SearchedProduct.query.filter_by(user_id = u_id, favorited=True).join(Product).all()
+
 
 
 def create_searchedproduct(user_id, product_id, approved, favorited):
@@ -211,11 +224,14 @@ def searchedproduct_by_id(sp_id):
     """return searched product by id"""
     return SearchedProduct.query.filter_by(searched_product_id=sp_id).one()
 
+def user_id_by_searchedproduct_id(sp_id):
+    """return user id by searched product id"""
+    return User.query.join(SearchedProduct).filter(SearchedProduct.searched_product_id==sp_id).one()
 
 
 def searchedproduct_by_userid_productid(users_id, products_id):
     """return searched product byproduct id and user"""
-    return SearchedProduct.query.filter_by(user_id = users_id, product_id = products_id).all()
+    return SearchedProduct.query.filter_by(user_id = users_id, product_id = products_id).first()
 
     ##FUNCTION TO RETURN ALL OFTHESE
     ##FUNCTION TO RETURN THESE BY USER
