@@ -37,12 +37,14 @@ document.querySelector('#Check').addEventListener('submit', evt => {
         let prod_string = "";
         let resulttext = "";
         if(site_area==="notallergic") {
-            resulttext = "Yay! You're <b>not allergic</b> to " + prodname + "! <br><br> Full ingredient list: " + all_ings ;
+            resulttext = `<div class="alert alert-success" role="alert">` + "Yay! You're <b>not allergic</b> to " + prodname + "!</div>";
             for (const k of prodlist) {
                 console.log(k["name"]);
                 console.log(k["id"]);
                 let each_id = (k["id"])
-                prod_string = `${prod_string}<li>${k["name"]} <button class="favorite" value="${each_id}">Add to favorites</button></li>`;
+                prod_string = `${prod_string}<li>${k["name"]} <button class="favorite btn btn-outline-secondary btn-sm" value="${each_id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+              </svg>Add</button></li>`;
             };
 
         }else{
@@ -50,11 +52,11 @@ document.querySelector('#Check').addEventListener('submit', evt => {
                 console.log(k["name"]);
                 prod_string = `${prod_string}<li>${k["name"]}</li>`;
             };
-            resulttext = "Oh no! <b>You're allergic</b> to " + prodname + "! <br><br> These are the culprits: " + bad_ings + "<br><br>Full ingredient list: " + all_ings ;
+            resulttext = `<div class="alert alert-danger" role="alert">` + "Oh no! <b>You're allergic</b> to " + prodname + "! <br><br> These are the culprits: " + bad_ings + "</div>";
         }
         
             document.querySelector(`.${site_area}`).innerHTML = prod_string;
-            document.querySelector('#result-text').innerHTML = resulttext;
+            document.querySelector('#result-text').innerHTML = resulttext + `<div class="accordion-item"><h2 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> <strong>Ingredients List: &nbsp;</strong>  ` + prodname + `</button></h2><div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample"><div class="accordion-body">` + all_ings + `</div></div></div>`;
         })
 
     });

@@ -3,7 +3,7 @@
 
 
 document.body.addEventListener('click', function (evt) {
-    if (evt.target.className === 'favorite') {
+    if (evt.target.classList.contains('favorite')) {
         evt.preventDefault();
         const obj_fav = evt.target.value;
         console.log(obj_fav);
@@ -19,7 +19,7 @@ document.body.addEventListener('click', function (evt) {
             for (const k of prodlist) {
                 console.log(k);
                 console.log(k["name"]);
-                prod_string = prod_string + '<li>' + (k["name"]) + ' ' + '<button class="favorite" value="' + (k["id"]) + '">Remove</button>' + '</li>';
+                prod_string = prod_string + '<li>' + (k["name"]) + ' ' + '<button class="favorite btn btn-outline-secondary btn-sm" value="' + (k["id"]) + '">Remove</button>' + '</li>';
                 console.log(prod_string);
             };
             document.querySelector('.favorite-product').innerHTML=prod_string;
