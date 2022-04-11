@@ -42,6 +42,8 @@ def submit_irritants():
 
     cp_ingredients = crud.get_ingredient_names_by_product(chosen_product)
     ings = ", ".join(cp_ingredients)
+
+    printinfo("culprits", badingname)
     
     printinfo("arethese ingredients ", ings)
    
@@ -87,6 +89,7 @@ def submit_irritants():
         dict_userprods = list(map(all_prods, searchprods))
 
         printinfo("dictionary products", dict_userprods)
+        
 
         searchedprod = crud.searchedproduct_by_userid_productid(user_id, product_id)
         searchedprod_id = searchedprod.searched_product_id

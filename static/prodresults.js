@@ -32,7 +32,7 @@ document.querySelector('#Check').addEventListener('submit', evt => {
         let prod_id = (result[1]["cp"]);
         let prodlist = (result[2]["allprods"]);
         let prodname = (result[3]["productname"]);
-        let bad_ings = (result[4]["badingname"]);
+        let bad_ings = (result[4]["badings"]);
         let all_ings = (result[5]["allings"]);
         let prod_string = "";
         let resulttext = "";
@@ -50,7 +50,7 @@ document.querySelector('#Check').addEventListener('submit', evt => {
                 console.log(k["name"]);
                 prod_string = `${prod_string}<li>${k["name"]}</li>`;
             };
-            resulttext = "Oh no! <b>You're allergic</b> to " + prodname + "! <br> These are the culprits: " + bad_ings + "<br><br>Full ingredient list: " + all_ings ;
+            resulttext = "Oh no! <b>You're allergic</b> to " + prodname + "! <br><br> These are the culprits: " + bad_ings + "<br><br>Full ingredient list: " + all_ings ;
         }
         
             document.querySelector(`.${site_area}`).innerHTML = prod_string;
