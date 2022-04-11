@@ -103,6 +103,13 @@ def get_irritantgroups_by_product(chosenproduct, allergylist):
                      .filter(Product.product_name == chosenproduct).join(IrritantGroup)\
                      .filter(IrritantGroup.irritantgroup_name.in_(allergylist)).all()
     # return IrritantGroup.query.join(Ingredient).join(ProductIngredient).join(Product).filter(Product.product_name == chosenproduct).filter(Ingredient.irritantgroup_id.is_not(None)).all()
+def get_irritant_ingredient_names(igbyprs):
+    """ this thing"""
+    igname = []
+    for obj in igbyprs:
+        igname.append(obj.ingredient_name)
+    return ", ".join(igname)     
+
 
 #(each of above can do .irritantgroup.irritantgroup_name) for latesss
 
@@ -126,6 +133,14 @@ def get_ingredient_by_name(ingredient_name):
 def get_ingredients_by_product(productname):
     """Return a list of ingredients by product"""
     return Ingredient.query.join(ProductIngredient).join(Product).filter(Product.product_name == productname).all()
+
+def get_ingredient_names_by_product(productname):
+    """Return a list of ingredients by product"""
+    cp_ingredientsobj = Ingredient.query.join(ProductIngredient).join(Product).filter(Product.product_name == productname).all()
+    cp_ingredients = []
+    for obj in cp_ingredientsobj:
+        cp_ingredients.append(obj.ingredient_name)
+    return cp_ingredients
 
 
 def create_user_irritantgroup_allergylist(user_id, allergylist):

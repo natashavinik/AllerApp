@@ -34,6 +34,15 @@ def submit_irritants():
     chosen_product = request.args.get('search')
     ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
     printinfo("do we have irritants?", ig_by_pr)
+    if ig_by_pr:
+        badingname = crud.get_irritant_ingredient_names(ig_by_pr)
+    printinfo("product", chosen_product)
+
+    cp_ingredients = crud.get_ingredient_names_by_product(chosen_product)
+    ings = ", ".join(cp_ingredients)
+    
+    printinfo("arethese ingredients ", ings)
+   
     if logged_in_email:
         user_id = crud.get_user_by_email(logged_in_email).user_id
         for allergy in allergylist:
@@ -88,7 +97,7 @@ def submit_irritants():
     else:
         print("YOU'RE NOT LOGGED IN")
         if ig_by_pr:
-            return (f'Boo, you <b>are allergic</b> to {chosen_product}')
+            return (f'Boo, you <b>are allergic</b> to {chosen_product} <br> <br> These are the culprits: {badingname} <br><br> <b>Full Ingredient List:</b> {ings}')
         else:
             return (f'Yay! You are <b>not allergic</b> to {chosen_product}!')
 
