@@ -36,6 +36,8 @@ def submit_irritants():
     printinfo("do we have irritants?", ig_by_pr)
     if ig_by_pr:
         badingname = crud.get_irritant_ingredient_names(ig_by_pr)
+    else:
+        badingname = None
     printinfo("product", chosen_product)
 
     cp_ingredients = crud.get_ingredient_names_by_product(chosen_product)
@@ -93,7 +95,7 @@ def submit_irritants():
         printinfo("product", searchedprod)
         printinfo("productid", searchedprod_id)
         
-        return jsonify([{"canhave":canhas}, {"cp":searchedprod_id}, {"allprods":dict_userprods}])
+        return jsonify([{"canhave":canhas}, {"cp":searchedprod_id}, {"allprods":dict_userprods}, {"productname":chosen_product}, {"badings":badingname}, {"allings":ings}])
     else:
         print("YOU'RE NOT LOGGED IN")
         if ig_by_pr:
