@@ -18,8 +18,8 @@ document.body.addEventListener('click', function (evt) {
             let prod_string = "";
             for (const k of prodlist) {
                 console.log(k);
-                console.log(k["id"]);
-                prod_string = prod_string + '<li>' + (k["id"]) + '</li>';
+                console.log(k["name"]);
+                prod_string = prod_string + '<li>' + (k["name"]) + '<button class="favorite" value="' + (k["id"]) + '">Remove</button>' + '</li>';
                 console.log(prod_string);
             };
             document.querySelector('.favorite-product').innerHTML=prod_string;

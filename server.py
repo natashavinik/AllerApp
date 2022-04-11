@@ -98,7 +98,12 @@ def add_favorite():
     print(favobj)
     print("\n" * 4 )
     fproduct = crud.searchedproduct_by_id(favobj)
-    fproduct.favorited = True
+    if fproduct.favorited is True:
+        fproduct.favorited = False
+    elif fproduct.favorited is False:
+        fproduct.favorited = True
+    else:
+        fproduct.favorited = True
     db.session.commit()
     u_id = crud.user_id_by_searchedproduct_id(favobj)
     u_id = u_id.user_id
@@ -113,7 +118,8 @@ def add_favorite():
     print("\n" * 4 )
     def fun(favorite):
         return{
-            "id":favorite.products.product_name
+            "name":favorite.products.product_name,
+            "id":favorite.searched_product_id
         }
         
     dict_userfavs = map(fun, userfavs)

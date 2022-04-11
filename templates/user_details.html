@@ -49,7 +49,8 @@ if they do have irritants they automatically have them checked and saved here --
     {% for user_searchedproduct in user_searchedproducts %}
       {% if user_searchedproduct.favorited == True %}
       <li>
-      {{ user_searchedproduct.products.product_name }}</li>
+      {{ user_searchedproduct.products.product_name }} 
+      <button class="favorite" name="{{user_searchedproducts}}" value="{{user_searchedproduct.searched_product_id}}">Remove</button></li>
      {% endif %}
     {% endfor %}
   </ul>
