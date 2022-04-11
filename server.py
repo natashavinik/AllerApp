@@ -27,11 +27,13 @@ def submit_irritants():
     """Add chosen irritants to tempolist.
     Compare to ingredients in chosen product """
     logged_in_email = session.get("user_email")
+    printinfo("LOGGEDIN?", logged_in_email)
     #Below for if it's a non-user on the general page
     # if logged_in_email is None:
     allergylist = request.args.get('irritants').split(",")
     chosen_product = request.args.get('search')
     ig_by_pr = crud.get_irritantgroups_by_product(chosen_product, allergylist)
+    printinfo("do we have irritants?", ig_by_pr)
     if logged_in_email:
         user_id = crud.get_user_by_email(logged_in_email).user_id
         for allergy in allergylist:
@@ -83,10 +85,16 @@ def submit_irritants():
         printinfo("productid", searchedprod_id)
         
         return jsonify([{"canhave":canhas}, {"cp":searchedprod_id}, {"allprods":dict_userprods}])
-    
+    else:
+        print("YOU'RE NOT LOGGED IN")
+        if ig_by_pr:
+            return (f'Boo, you <b>are allergic</b> to {chosen_product}')
+        else:
+            return (f'Yay! You are <b>not allergic</b> to {chosen_product}!')
+
     # return jsonify([{"canhave":canhas}, {"cp":chosen_product}, {"allprods":[dict_userprods]}])
     # if ig_by_pr:
-    #     return (f'Boo, you <b>are allergic</b> to {chosen_product}')
+    #      (f'Boo, you <b>are allergic</b> to {chosen_product}')
     # else:
     #     return (f'Yay! You are <b>not allergic</b> to {chosen_product}!')
  

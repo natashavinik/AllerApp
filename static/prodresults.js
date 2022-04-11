@@ -34,7 +34,7 @@ document.querySelector('#Check').addEventListener('submit', evt => {
                 console.log(k["name"]);
                 console.log(k["id"]);
                 let each_id = (k["id"])
-                prod_string = `${prod_string}<li>${k["name"]}<button class="favorite" value="${each_id}">Add to favorites</button></li>`;
+                prod_string = `${prod_string}<li>${k["name"]} <button class="favorite" value="${each_id}">Add to favorites</button></li>`;
                 console.log(prod_string);
             };
         }else{
