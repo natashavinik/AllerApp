@@ -67,7 +67,9 @@ def submit_irritants():
             #function to find searched products not allergic = allprods
         def all_prods(sprod):
             return{
-                "name":sprod.products.product_name
+                "name":sprod.products.product_name,
+                "id":sprod.searched_product_id
+
             }
         dict_userprods = list(map(all_prods, searchprods))
 
@@ -95,7 +97,6 @@ def add_favorite():
     print("\n" * 4 )
     print(favobj)
     print("\n" * 4 )
-
     fproduct = crud.searchedproduct_by_id(favobj)
     fproduct.favorited = True
     db.session.commit()

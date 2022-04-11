@@ -32,7 +32,9 @@ document.querySelector('#Check').addEventListener('submit', evt => {
         if(site_area==="notallergic") {
             for (const k of prodlist) {
                 console.log(k["name"]);
-                prod_string = `${prod_string}<li>${k["name"]}<button class="favorite" value="${prod_id}">Add to favorites</button></li>`;
+                console.log(k["id"]);
+                let each_id = (k["id"])
+                prod_string = `${prod_string}<li>${k["name"]}<button class="favorite" value="${each_id}">Add to favorites</button></li>`;
                 console.log(prod_string);
             };
         }else{
