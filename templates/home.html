@@ -17,49 +17,94 @@
   
     {% for irritant in irritants %}
 
-    <input type="checkbox" name="irritants" value="{{ irritant.irritantgroup_name }}" id="{{ irritant.irritantgroup_name }}">
+    <input type="checkbox" class="form-check-input" name="irritants" value="{{ irritant.irritantgroup_name }}" id="{{ irritant.irritantgroup_name }}">
     <label for="{{ irritant.irritantgroup_name }}-irritant">{{ irritant.irritantgroup_name }}</label>
 
     {% endfor %}
 
 <p>
-<label>Search Here</label>&nbsp;&nbsp;<input type="text" name="search" id="searchBox"/>
+<label>Search Here</label>&nbsp;&nbsp;<input type="text" class="form-control" name="search" id="searchBox"/>
 
-    <button type="submit">Check!</button>
+    <button class="btn btn-primary" type="submit">Check!</button>
 </form>
 
 <div id="result-text"></div>
 <br>
 
-  <h2>Create an Account</h2>
-  <form action="/register" method="POST">
-    <p>
-      Email <input type="text" name="email">
-    </p>
 
-    <p>
-      Password <input type="password" name="password">
-    </p>
+  <p>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
+      Login
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample1">
+    <div class="card card-body">
 
-    <p>
-      <input type="submit">
-    </p>
-  </form>
 
-  <h2>Log In</h2>
-  <form action="/login" method="POST">
-    <p>
-      Email <input type="text" name="email">
-    </p>
+      <form action="/login" method="POST">
+        <div class="row g-2 align-items-center">
+          <div class="col-auto">
+            <label for="inputEmail" class="col-form-label">Email</label>
+          </div>
+        <div class="col-auto">
+        <input type="text" class="form-control" name="email">
+      </div></div>
+      </p>
+    
+      <p>
+        <div class="row g-2 align-items-center">
+        <div class="col-auto">
+          <label for="inputPassword6" class="col-form-label">Password</label>
+        </div>
+        <div class="col-auto">
+         <input type="password" class="form-control" name="password">
+        </div></div>
+    
+        <p>
+          <input class="btn btn-primary" type="submit">
+        </p>
+      </form>
+    
+    </div>
+  </div>
 
-    <p>
-      Password <input type="password" name="password">
-    </p>
 
-    <p>
-      <input type="submit">
-    </p>
-  </form>
+  <p>
+
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Create Account
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      <form action="/register" method="POST">
+        <p>
+          <div class="row g- align-items-center">
+            <div class="col-auto">
+              <label for="inputEmail" class="col-form-label">Email</label>
+            </div>
+          <div class="col-auto">
+          <input type="text" class="form-control" name="email">
+        </div></div>
+        </p>
+    
+        <p>
+          <div class="row g-2 align-items-center">
+          <div class="col-auto">
+            <label for="inputPassword6" class="col-form-label">Password</label>
+          </div>
+          <div class="col-auto">
+           <input type="password" class="form-control" name="password">
+          </div></div>
+        </p>
+    
+        <p>
+          <input class="btn btn-primary" type="submit">
+        </p>
+      </form></div>
+  </div>
+
+
 <!-- 
   <div id="snapp"></div>  -->
 

@@ -102,9 +102,9 @@ def submit_irritants():
     else:
         print("YOU'RE NOT LOGGED IN")
         if ig_by_pr:
-            return (f'Boo, you <b>are allergic</b> to {chosen_product} <br> <br> These are the culprits: {badingname} <br><br> <b>Full Ingredient List:</b> {ings}')
+            return (f'<div class="alert alert-danger" role="alert"> Boo, you <b>are allergic</b> to {chosen_product} <br> <br> These are the culprits: {badingname} </div><br><br> <b>Full Ingredient List:</b> {ings}')
         else:
-            return (f'Yay! You are <b>not allergic</b> to {chosen_product}!')
+            return (f'<div class="alert alert-success" role="alert">Yay! You are <b>not allergic</b> to {chosen_product}!</div>')
 
     # return jsonify([{"canhave":canhas}, {"cp":chosen_product}, {"allprods":[dict_userprods]}])
     # if ig_by_pr:
@@ -226,6 +226,14 @@ def process_login():
         session["user_email"] = user.email
         flash(f"Welcome back, {user.email}, {user.user_id}!")
         return redirect(f"/users/{user.user_id}")
+
+@app.route ("/logout")
+def log_user_out():
+    """logs out user, sends to homepage"""
+
+    session.pop('user_email')
+    flash("You've been logged out.")
+    return redirect('/')
 
    #BELOW IS THE CODE WE'LL WANT TO USE ON USER LOGIN PAGES
     # if request.method =='POST':
