@@ -9,11 +9,16 @@
 <p>
 </p>
 
-  <h1>AllerApp</h1>
+<div id="titletown" class="d-flex p-2 bd-highlight"><div class="d-inline" id="alltitle"><h1>AllerApp</h1></div></div>
 
-
+<br><br><br><div id="mainbar">
+  <div class = "row">
+    <div class="col-12 col-md-4 col-lg-4" id="main3">
   <form id = "Check">
-    Which irritants would you like to avoid? <p>
+    <!-- <div id="avoidid"> -->
+      <h4>Pick which ingredients to avoid.</h4>
+      <p>
+    <!-- Which irritants would you like to avoid? <p> -->
   
     {% for irritant in irritants %}
 
@@ -21,88 +26,100 @@
     <label for="{{ irritant.irritantgroup_name }}-irritant">{{ irritant.irritantgroup_name }}</label>
 
     {% endfor %}
-
-<p>
-<label>Search Here</label>&nbsp;&nbsp;<input type="text" class="form-control" name="search" id="searchBox"/>
+    <!-- </div> -->
+    </div>
+  <div class="col-12 col-md-4 col-lg-4" id="main3">
+    <h4>Pick your product.</h4>
+    <p>
+<label>Search Here</label>&nbsp;&nbsp;<input type="text" name="search" id="searchBox"/>
 
     <button class="btn btn-primary" type="submit">Check!</button>
-</form>
+</form></div>
+<div class="col-12 col-md-4 col-lg-4" id="main3">
+  <h4>Get your results.</h4><p><div id="result-text"></div>
+</div></div></div></div>
 
-<div id="result-text"></div>
-<br>
+
+<!-- </div> -->
 
 
-  <p>
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample1">
-      Login
-    </button>
+<br><Br>
+<div>
+  <p class="text-center"> To save your irritant profile and searched products, </p> <p class="text-center">
+    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">Create Account</button> or
+    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Login</button>
   </p>
-  <div class="collapse" id="collapseExample1">
-    <div class="card card-body">
+  <div class="row"><div class = "col-0 col-md-3 col-lg-4"> </div>
+    <div class="col">
+      <div class="collapse multi-collapse" id="multiCollapseExample1">
+        <div class="card card-body" id="loginlogout">
+          <form action="/register" method="POST">
+            
+              <div class="row g- align-items-center">
+                <div class="col-auto">
+                  <label for="inputEmail" class="col-form-label">Email</label>
+                </div>
+              <div class="col-auto">
+              <input type="text" class="form-control" name="email">
+            </div></div>
+            </p>
+        
+            <p>
+              <div class="row g-2 align-items-center">
+              <div class="col-auto">
 
-
-      <form action="/login" method="POST">
-        <div class="row g-2 align-items-center">
-          <div class="col-auto">
-            <label for="inputEmail" class="col-form-label">Email</label>
-          </div>
-        <div class="col-auto">
-        <input type="text" class="form-control" name="email">
-      </div></div>
-      </p>
-    
-      <p>
-        <div class="row g-2 align-items-center">
-        <div class="col-auto">
-          <label for="inputPassword6" class="col-form-label">Password</label>
-        </div>
-        <div class="col-auto">
-         <input type="password" class="form-control" name="password">
-        </div></div>
-    
-        <p>
-          <input class="btn btn-primary" type="submit">
-        </p>
-      </form>
-    
+                <label for="inputPassword6" class="col-form-label">Password</label>
+              </div>
+              <div class="col-auto">
+               <input type="password" class="form-control" name="password">
+              </div></div>
+            </p>
+        
+            <p>
+              <input class="btn btn-primary" type="submit">
+            </p>
+          </form></div>
+      </div>
     </div>
-  </div>
-
-
-  <p>
-
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-      Create Account
-    </button>
-  </p>
-  <div class="collapse" id="collapseExample">
-    <div class="card card-body">
-      <form action="/register" method="POST">
-        <p>
-          <div class="row g- align-items-center">
+    <div class="col">
+      <div class="collapse multi-collapse" id="multiCollapseExample2">
+        <div class="card card-body" id="loginlogout">
+          <form action="/login" method="POST">
+            <div class="row g-2 align-items-center">
+              <div class="col-auto">
+                <label for="inputEmail" class="col-form-label">Email</label>
+              </div>
             <div class="col-auto">
-              <label for="inputEmail" class="col-form-label">Email</label>
-            </div>
-          <div class="col-auto">
-          <input type="text" class="form-control" name="email">
-        </div></div>
-        </p>
-    
-        <p>
-          <div class="row g-2 align-items-center">
-          <div class="col-auto">
-            <label for="inputPassword6" class="col-form-label">Password</label>
-          </div>
-          <div class="col-auto">
-           <input type="password" class="form-control" name="password">
+            <input type="text" class="form-control" name="email">
           </div></div>
+          </p>
+        
+          <p>
+            <div class="row g-2 align-items-center">
+            <div class="col-auto">
+              <label for="inputPassword6" class="col-form-label">Password</label>
+            </div>
+            <div class="col-auto">
+             <input type="password" class="form-control" name="password">
+            </div></div>
         </p>
-    
-        <p>
-          <input class="btn btn-primary" type="submit">
-        </p>
-      </form></div>
-  </div>
+            <p>
+              <input class="btn btn-primary" type="submit">
+            </p>
+          </form></div>
+      </div>
+    </div><div class="col-0 col-md-3 col-lg-4"> </div>
+  </div></div>
+<br><Br><Br>
+
+
+
+
+
+
+
+
+
 
 
 <!-- 

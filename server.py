@@ -102,11 +102,12 @@ def submit_irritants():
     else:
         print("YOU'RE NOT LOGGED IN")
         if ig_by_pr:
-            return (f'<div class="alert alert-danger" role="alert"> Boo, you <b>are allergic</b> to {chosen_product} <br> <br> These are the culprits: {badingname} </div><br><br> <b>Full Ingredient List:</b> {ings}')
+            return (f'<div id="allergicdiv"> You <div class="d-inline" id=allergyanswer> <b>are allergic</b></div> to {chosen_product} <br> <br> These are the culprits: {badingname}</div>')
         else:
-            return (f'<div class="alert alert-success" role="alert">Yay! You are <b>not allergic</b> to {chosen_product}!</div>')
+            return (f'<div id="allergicdiv">You are <div class="d-inline" id=allergyanswer><b>not allergic</b></div> to {chosen_product}!</div>')
 
-    # return jsonify([{"canhave":canhas}, {"cp":chosen_product}, {"allprods":[dict_userprods]}])
+# return (f'<div id="allergicdiv"> Boo, you <b>are allergic</b> to {chosen_product} <br> <br> These are the culprits: {badingname} <br> <b>Full Ingredient List:</b> {ings}</div>')
+#     # return jsonify([{"canhave":canhas}, {"cp":chosen_product}, {"allprods":[dict_userprods]}])
     # if ig_by_pr:
     #      (f'Boo, you <b>are allergic</b> to {chosen_product}')
     # else:

@@ -37,7 +37,7 @@ document.querySelector('#Check').addEventListener('submit', evt => {
         let prod_string = "";
         let resulttext = "";
         if(site_area==="notallergic") {
-            resulttext = `<div class="alert alert-success" role="alert">` + "Yay! You're <b>not allergic</b> to " + prodname + "!</div>";
+            resulttext = "You're <b id=allergyanswer>not allergic</b> to <br>" + prodname + "!";
             for (const k of prodlist) {
                 console.log(k["name"]);
                 console.log(k["id"]);
@@ -52,14 +52,39 @@ document.querySelector('#Check').addEventListener('submit', evt => {
                 console.log(k["name"]);
                 prod_string = `${prod_string}<li>${k["name"]}</li>`;
             };
-            resulttext = `<div class="alert alert-danger" role="alert">` + "Oh no! <b>You're allergic</b> to " + prodname + "! <br><br> These are the culprits: " + bad_ings + "</div>";
+            resulttext = `<div id="allergicdiv">` + "You're <b id=allergyanswer> allergic</b> to " + prodname + `! </div><br><button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">See Why</button>`;
         }
         
             document.querySelector(`.${site_area}`).innerHTML = prod_string;
-            document.querySelector('#result-text').innerHTML = resulttext + `<div class="accordion-item"><h2 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> <strong>Ingredients List: &nbsp;</strong>  ` + prodname + `</button></h2><div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample"><div class="accordion-body">` + all_ings + `</div></div></div>`;
+            document.querySelector('#result-text').innerHTML = resulttext;
+            document.querySelector('#ingredientstown').innerHTML = `<div id=alltitle>These are the culprits:</div>` + bad_ings + `<p>` + `<div id=alltitle>Ingredients List:</div>` + all_ings;
         })
 
     });
+
+
+// <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+//   Ingredients List
+// </button>
+
+
+
+// `<div class="accordion-item"><h2 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> <strong>Ingredients List: &nbsp;</strong>  ` + prodname + `</button></h2><div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample"><div class="accordion-body">` + all_ings + `</div></div></div>`
+{/* <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div id="ingredientstown">
+      Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+    </div>
+  </div>
+</div> */}
+
+// document.querySelector('#result-text').innerHTML = resulttext + `<div class="accordion-item"><h2 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> <strong>Ingredients List: &nbsp;</strong>  ` + prodname + `</button></h2><div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample"><div class="accordion-body">` + all_ings + `</div></div></div>`;
+//         })
+
 
 //     for (const k of prodlist) {
 //         console.log(k["name"]);
@@ -71,7 +96,7 @@ document.querySelector('#Check').addEventListener('submit', evt => {
 //     })
 
 // });
-
+// `<div class="alert alert-danger" role="alert">
 
 
     // fetch(url)
