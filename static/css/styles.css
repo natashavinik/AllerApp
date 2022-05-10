@@ -228,7 +228,8 @@ lvenger blue - #E4D9FF */
   transition: all 200ms ease-in;
   transform: scale(1.05);
 }
-.card-body {
+
+#favprodsbod {
   flex: 1 1 auto;
   padding-top: 1rem;
   padding-right: 0rem;
@@ -246,4 +247,39 @@ lvenger blue - #E4D9FF */
 }
 #removebtns {
   align-items: center;
+}
+
+.accordion-body {
+  padding: 1rem 1.25rem;
+  max-height: 450px;
+  overflow-y: a;
+  overflow: scroll;
+}
+
+#addbutton {
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: center;
+  text-decoration: none;
+  float: right;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  box-shadow: -34px -36px 42px -50px #cbfcbc inset;
+  user-select: none;
+  background: #b0eaf8;
+  border: 1px solid transparent;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 1.15rem;
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+#addbutton:hover {
+  color: #fff;
+  background-color: #cbfcbc;
+  border-color: #0d6efd;
 }

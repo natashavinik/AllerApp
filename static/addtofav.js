@@ -19,7 +19,7 @@ document.body.addEventListener('click', function (evt) {
             for (const k of prodlist) {
                 console.log(k);
                 console.log(k["name"]);
-                prod_string = prod_string + '<div class="card"><div class="card-body"><h7 class="card-title">' + (k["name"]) + '<p>' + '<button class="favorite btn btn-outline-secondary btn-sm" value="' + (k["id"]) + '">Remove</button>' + '</div></div>';
+                prod_string = prod_string + '<div class="card"><div class="card-body" id="favprodsbod"><h7 class="card-title">' + (k["name"]) + '<p>' + '<button class="favorite btn btn-outline-secondary btn-sm" value="' + (k["id"]) + '">Remove</button>' + '</div></div>';
                 console.log(prod_string);
             };
             document.querySelector('#thefavorites').innerHTML=prod_string;

@@ -76,26 +76,13 @@ if they do have irritants they automatically have them checked and saved here --
     <div id="collapseTwo" class="accordion-collapse show" aria-labelledby="headingTwo">
       <div class="accordion-body">
 
-
-
-
-        <!-- <ul class="favorite-product">
-          {% for user_searchedproduct in user_searchedproducts %}
-            {% if user_searchedproduct.favorited == True %}
-            <li>
-            {{ user_searchedproduct.products.product_name }} 
-            <button class="favorite btn btn-outline-secondary btn-sm" name="{{user_searchedproducts}}" value="{{user_searchedproduct.searched_product_id}}">Remove</button></li>
-           {% endif %}
-          {% endfor %}
-        </ul>
-       -->
       
       
         <div class="container" id="thefavorites">
           {% for user_searchedproduct in user_searchedproducts %}
             {% if user_searchedproduct.favorited == True %}
           <div class="card">
-            <div class="card-body">
+            <div class="card-body" id="favprodsbod">
               <h7 class="card-title">{{ user_searchedproduct.products.product_name }} </h7>
               <p id="removebtns"><button class="favorite btn btn-outline-secondary btn-sm" name="{{user_searchedproducts}}" value="{{user_searchedproduct.searched_product_id}}">Remove</button></li>
               </p>
@@ -114,6 +101,8 @@ if they do have irritants they automatically have them checked and saved here --
       </div>
     </div></div></div></div>
 <br><Br>
+
+
 <div class="row">
   <div class="col-12 col-md-6 col-lg-6">
 <div class="accordion">
@@ -124,20 +113,28 @@ if they do have irritants they automatically have them checked and saved here --
       </button>
     </h2>
     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree">
-      <div class="accordion-body"><ul class = "notallergic">
+      <div class="accordion-body"><div class="container" id="notallergic">
         {% for user_searchedproduct in user_searchedproducts %}
         {% if user_searchedproduct.approved == True %}
-        <div>
-        {{ user_searchedproduct.products.product_name }}
+        
+
+        <div class="card"> <div class="row g-0">
+          <div class="col-md-10">
+          <div class="card-body" id="safeprods">
+            <h7 class="card-title">{{ user_searchedproduct.products.product_name }} </h7> </div></div>
         <!-- ({{ user_searchedproduct.products.product_type }}) -->
-         <button class="favorite btn btn-outline-secondary btn-sm" name="{{user_searchedproducts}}" value="{{user_searchedproduct.searched_product_id}}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+        <div class="col-md-2">
+         <button class="favorite btn btn-outline-secondary btn-sm" name="{{user_searchedproducts}}" value="{{user_searchedproduct.searched_product_id}}" id="addbutton"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
           <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-        </svg>Add</button>
+        </svg>Add</button></div>
+      </div>
         </div>
       
         {% endif %}
-        {% endfor %}
-      </ul></div></div></div></div></div>
+        {% endfor %}</div></div></div></div>
+      </div></div>
+
+
       <div class="col-12 col-md-6 col-lg-6">
     <div class="accordion">
       <div class="accordion-item">
@@ -147,15 +144,17 @@ if they do have irritants they automatically have them checked and saved here --
           </button>
         </h2>
         <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour">
-          <div class="accordion-body"><ul class="allergic">
+          <div class="accordion-body"><div class="container" id="allergic">
+
+
             {% for user_searchedproduct in user_searchedproducts %}
               {% if user_searchedproduct.approved == False %}
-              <div>
+              <div class="card"><div class="card-body" id="unsafeprods"><h7 class="card-title">
                 {{ user_searchedproduct.products.product_name }}({{ user_searchedproduct.products.product_type }})
-                </div>
+              </h7></div></div>
               {% endif %}
             {% endfor %}
-          </ul> </div>
+          </div>
         </div></div></div></div></div></div>
 
 

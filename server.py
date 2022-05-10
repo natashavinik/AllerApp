@@ -225,8 +225,12 @@ def process_login():
     else:
         # Log in user by storing the user's email in session
         session["user_email"] = user.email
-        flash(f"Welcome back, {user.email}, {user.user_id}!")
+        flash(f"Welcome back, {user.fname}!")
         return redirect(f"/users/{user.user_id}")
+
+
+# flash(f"Welcome back, {user.email}, {user.user_id}
+
 
 @app.route ("/logout")
 def log_user_out():
