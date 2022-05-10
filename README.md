@@ -2,18 +2,18 @@
 AllerApp helps people feel safe about what products they are using in their body. Allerap allows users to look up personal care products (shampoos, soaps, skincare, etc.), select which ingredients they want to avoid or are allergic to, and find out if the product is safe for them. 
 
 ## Table of Contents 📖
-* [Tech Stack](#tech-stack)
+* [Tech Stack](#techstack)
 * [Features](#features)
-* [Set-Up](#set-up)
-* [Future Improvements](#future-improvements)
-* [About Me](#about-me)
+* [Set-Up](#setup)
+* [Future Improvements](#futureimprovements)
+* [About Me](#aboutme)
 
-## Tech Stack 🤖
+## <a name="techstack"></a>Tech Stack 🤖
 * Backend: Python, Flask, SQL, PostgreSQL, SQLAlchemy
 * Frontend: Javascript, HTML, CSS, Bootstrap, AJAX, JSON, Jinja2
 * Other: Scrapy (used for data-scraping)
 
-## Features 🙌
+## <a name="features"></a>Features 🙌
 🎥 [See a full video walk-through](https://youtu.be/GplYq6jrtfQ)
 
 #### Homepage
@@ -37,7 +37,7 @@ AllerApp helps people feel safe about what products they are using in their body
 * Hitting the Remove button on a product in the favorite list will remove it from the favorites list. 
 ![AllerApp Favorited Products](/static/readmegifs/AllerAppFavorited.gif)
 
-## Set Up 🛠
+## <a name="setup"></a>Set Up 🛠
 To run this project, clone or fork this repo:
 ```
 git clone https://github.com/natashavinik/AllerApp.git
@@ -62,12 +62,12 @@ python3 server.py
 ```
 You can now navigate to 'localhost:5000/' to access AllerApp
 
-## Future Improvements 💫
+## <a name="futureimprovements"></a>Future Improvements 💫
 * Remake this in React
 * Add more options for ingredients to avoid
 * Let the user manually input ingredients to avoid
 * Set up a barcode scanner so that a user can quickly scan a product at a store to see if they can use it or not
 * Passcode encryption for more security
 
-## About Me 🙌 
+## <a name="aboutme"></a>About Me 🙌 
 Hello! I'm Natasha and i'm a software engineer by day, comedian by night. I created AllerApp in four weeks as my capstone project for Hackbright, a full-stack software engineering bootcamp. I'd love to connect with you on [LinkedIn](https://www.linkedin.com/in/natashavinik/)!
