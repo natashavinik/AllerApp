@@ -7,7 +7,7 @@ $(function() {
         source : function(request, response) {
             $.ajax({
                 type: "POST",
-                url : "http://http://35.167.141.238/search",
+                url : "http://35.167.141.238/search",
                 dataType : "json",
                 cache: false,
                 data : {
