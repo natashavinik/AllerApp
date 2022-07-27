@@ -115,7 +115,9 @@
     background-color: #86b4e9;
     /* border-color: #0d6efd; */
   }
-  
+  svg {
+    pointer-events: none;
+  }
   
   
   

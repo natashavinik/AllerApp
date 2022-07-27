@@ -283,3 +283,6 @@ lvenger blue - #E4D9FF */
   background-color: #cbfcbc;
   border-color: #0d6efd;
 }
+svg {
+  pointer-events: none;
+}

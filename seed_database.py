@@ -18,8 +18,8 @@ import codecs
 
 badingredients = json.load(codecs.open('data/avoidingredients.json', 'r', 'utf-8-sig'))
 
-productlist = json.load(codecs.open('data/nproducts.json', 'r', 'utf-8-sig'))
-# productlist = json.load(codecs.open('data/products.json', 'r', 'utf-8-sig'))
+productlist = json.load(codecs.open('data/realproducts.json', 'r', 'utf-8-sig'))
+# productlist = json.load(codecs.open('data/testproducts.json', 'r', 'utf-8-sig'))
 
 
 # Create ingredients and store them in list

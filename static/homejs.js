@@ -1,6 +1,6 @@
 'use strict';
 
-console.log('Hello, world!');
+// console.log('Hello, world!');
 
 $(function() {
     $("#searchBox").autocomplete({
@@ -27,6 +27,33 @@ $(function() {
     });
 });
 
+// below for testing locally
+// console.log('Hello, world!');
+
+// $(function() {
+//     $("#searchBox").autocomplete({
+//         source : function(request, response) {
+//             $.ajax({
+//                 type: "POST",
+//                 url : "http://127.0.0.1:5000/search",
+//                 dataType : "json",
+//                 cache: false,
+//                 data : {
+//                     q : request.term
+//                 },
+//                 success : function(data) {
+//                     //alert(data);
+//                     //console.log(data);
+//                     response(data.slice(0,5));
+//                 },
+//                 error: function(jqXHR, textStatus, errorThrown) {
+//                     console.log(textStatus + " " + errorThrown);
+//                 }
+//             });
+//         },
+//         minLength : 1
+//     });
+// });
 
 
 // const formInputs = {
